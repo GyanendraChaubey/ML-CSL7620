@@ -29,7 +29,7 @@ class LinearRegression:
 
     def __init__(self):
         self.eta=0.0001
-        self.iterations=1500000
+        self.iterations=400000
         self.thetas=None
         self.errors=[]
     
@@ -40,9 +40,9 @@ class LinearRegression:
         for _ in range(self.iterations):
             pred = np.dot(x_intercept, self.thetas)
             e = pred - y_train
-            self.errors.append(e)
             grad = np.dot(x_intercept.T, e) / n
             self.thetas -= self.eta * grad
+            
     
     def predict(self, x_test):
             if self.thetas is None:
@@ -51,15 +51,13 @@ class LinearRegression:
             n = x_test.shape[0]
             x_intercept = np.hstack((np.ones((n, 1)), x_test))
             return np.dot(x_intercept, self.thetas)
-    
-    def loss_curve(self):
-        pass
-
 
 reg=LinearRegression()
 
+print("Fitting the model")
 reg.fit(x_train,y_train)
 
+print("Predicting the output on test data")
 y_pred=reg.predict(x_test)
 
 print(y_pred)
@@ -76,10 +74,7 @@ def r2_score(y_test, y_pred):
 
 print(r2_score(y_test,y_pred))
 
-reg.loss_curve()
-
-
-#Take prediction no new data
+#Take prediction on new data
 x_new=np.array([7,95,1,7,6]).reshape(1,5)
 y_new=reg.predict(x_new)
 print(y_new)
