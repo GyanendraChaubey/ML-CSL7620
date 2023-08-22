@@ -15,6 +15,14 @@ x=data.drop(columns=['Performance'])
 print(x.shape)
 print(y.shape)
 
+from sklearn.preprocessing import StandardScaler
+
+sc=StandardScaler()
+
+sc.fit(x)
+
+x=sc.transform(x)
+
 from sklearn.model_selection import train_test_split
 
 x_train, x_test, y_train, y_test = train_test_split(x,y,test_size=0.2,random_state=42)
@@ -49,5 +57,6 @@ print(Adj_r2)
 
 #Take prediction on new data
 x_new=np.array([7,95,1,7,6]).reshape(1,5)
+x_new=sc.transform(x_new)
 y_new=reg_lib.predict(x_new)
 print(y_new)
